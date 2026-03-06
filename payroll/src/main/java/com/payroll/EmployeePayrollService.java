@@ -103,4 +103,46 @@ public class EmployeePayrollService {
 
         return employeeList;
     }
+
+    public void getSalaryStatisticsByGender() throws PayrollException {
+
+        String query = "SELECT gender, SUM(salary) AS total_salary, AVG(salary) AS avg_salary, " +
+                "MIN(salary) AS min_salary, MAX(salary) AS max_salary, COUNT(*) AS count " +
+                "FROM employee_payroll GROUP BY gender";
+
+        try {
+
+            PayrollDBService dbService = new PayrollDBService();
+            Connection connection = dbService.getConnection();
+
+            Statement statement = connection.createStatement();
+
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                String gender = resultSet.getString("gender");
+
+                double sum = resultSet.getDouble("total_salary");
+                double avg = resultSet.getDouble("avg_salary");
+                double min = resultSet.getDouble("min_salary");
+                double max = resultSet.getDouble("max_salary");
+                int count = resultSet.getInt("count");
+
+                System.out.println(
+                        "Gender: " + gender +
+                                ", SUM: " + sum +
+                                ", AVG: " + avg +
+                                ", MIN: " + min +
+                                ", MAX: " + max +
+                                ", COUNT: " + count
+                );
+            }
+
+        } catch (SQLException e) {
+
+            throw new PayrollException("Error retrieving salary statistics", e);
+
+        }
+    }
 }

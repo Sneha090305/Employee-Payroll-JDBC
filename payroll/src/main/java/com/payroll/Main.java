@@ -1,7 +1,5 @@
 package com.payroll;
 
-import java.util.List;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -10,14 +8,7 @@ public class Main {
 
         try {
 
-            List<EmployeePayrollData> employees =
-                    service.getEmployeesByDateRange("2018-01-01", "2025-12-31");
-
-            for (EmployeePayrollData emp : employees) {
-
-                System.out.println(emp);
-
-            }
+            service.getSalaryStatisticsByGender();
 
         } catch (PayrollException e) {
 
