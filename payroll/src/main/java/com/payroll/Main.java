@@ -8,7 +8,7 @@ public class Main {
 
         try {
 
-            service.getSalaryStatisticsByGender();
+            service.addEmployee("John", 3000000, "2024-01-01");
 
         } catch (PayrollException e) {
 

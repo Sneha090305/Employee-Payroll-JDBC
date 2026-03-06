@@ -145,4 +145,30 @@ public class EmployeePayrollService {
 
         }
     }
+
+    public void addEmployee(String name, double salary, String startDate) throws PayrollException {
+
+        String query = "INSERT INTO employee_payroll (name, salary, start_date) VALUES (?, ?, ?)";
+
+        try {
+
+            PayrollDBService dbService = new PayrollDBService();
+            Connection connection = dbService.getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setString(1, name);
+            statement.setDouble(2, salary);
+            statement.setString(3, startDate);
+
+            int rowsInserted = statement.executeUpdate();
+
+            System.out.println("Rows Inserted: " + rowsInserted);
+
+        } catch (SQLException e) {
+
+            throw new PayrollException("Error adding new employee", e);
+
+        }
+    }
 }
