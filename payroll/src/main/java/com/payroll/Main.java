@@ -1,14 +1,22 @@
 package com.payroll;
 
+import java.util.List;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        PayrollDBService dbService = new PayrollDBService();
+        EmployeePayrollService service = new EmployeePayrollService();
 
         try {
 
-            dbService.getConnection();
+            List<EmployeePayrollData> employees = service.readData();
+
+            for (EmployeePayrollData emp : employees) {
+
+                System.out.println(emp);
+
+            }
 
         } catch (PayrollException e) {
 
