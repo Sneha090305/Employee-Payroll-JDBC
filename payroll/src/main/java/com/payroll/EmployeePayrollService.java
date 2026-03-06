@@ -171,4 +171,43 @@ public class EmployeePayrollService {
 
         }
     }
+
+    public void getEmployeePayrollDetails() throws PayrollException {
+
+        String query =
+                "SELECT e.Name, d.DepartmentName, p.BasicPay, p.NetPay " +
+                        "FROM Employee e " +
+                        "JOIN Payroll p ON e.EmployeeId = p.EmployeeId " +
+                        "JOIN EmployeeDepartment ed ON e.EmployeeId = ed.EmployeeId " +
+                        "JOIN Department d ON ed.DepartmentId = d.DepartmentId";
+
+        try {
+
+            PayrollDBService dbService = new PayrollDBService();
+            Connection connection = dbService.getConnection();
+
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+
+                String name = resultSet.getString("Name");
+                String department = resultSet.getString("DepartmentName");
+                double basicPay = resultSet.getDouble("BasicPay");
+                double netPay = resultSet.getDouble("NetPay");
+
+                System.out.println(
+                        "Name: " + name +
+                                ", Department: " + department +
+                                ", BasicPay: " + basicPay +
+                                ", NetPay: " + netPay
+                );
+            }
+
+        } catch (SQLException e) {
+
+            throw new PayrollException("Error retrieving joined payroll data", e);
+
+        }
+    }
 }
