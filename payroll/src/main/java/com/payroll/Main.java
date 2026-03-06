@@ -10,12 +10,12 @@ public class Main {
 
         try {
 
+            service.updateSalary("Bill", 2000000);
+
             List<EmployeePayrollData> employees = service.readData();
 
             for (EmployeePayrollData emp : employees) {
-
                 System.out.println(emp);
-
             }
 
         } catch (PayrollException e) {

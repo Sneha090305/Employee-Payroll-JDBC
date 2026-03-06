@@ -41,4 +41,29 @@ public class EmployeePayrollService {
 
         return employeeList;
     }
+
+    public void updateSalary(String name, double salary) throws PayrollException {
+
+        String query = "UPDATE employee_payroll SET salary = ? WHERE name = ?";
+
+        try {
+
+            PayrollDBService dbService = new PayrollDBService();
+            Connection connection = dbService.getConnection();
+
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setDouble(1, salary);
+            statement.setString(2, name);
+
+            int rowsUpdated = statement.executeUpdate();
+
+            System.out.println("Rows Updated: " + rowsUpdated);
+
+        } catch (SQLException e) {
+
+            throw new PayrollException("Error updating employee salary", e);
+
+        }
+    }
 }
